@@ -3,7 +3,6 @@ import 'package:ecommerce_app/constants/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -12,7 +11,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 50),
-              // Email field
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -44,8 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Password field
               TextField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
@@ -69,10 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
-
-              // Login button
               Container(
                 width: double.infinity,
                 height: 50,
@@ -92,10 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Signup text
               Center(
                 child: TextButton(
                   onPressed: () {},
