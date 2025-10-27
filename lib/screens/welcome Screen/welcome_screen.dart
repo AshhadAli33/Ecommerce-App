@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/screens/login%20Screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/constants/app_colors.dart';
 
@@ -69,10 +68,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
+                       Navigator.pushReplacementNamed(context, '/wrapper');
                     },
                     child: const Text(
                       "Get Started",

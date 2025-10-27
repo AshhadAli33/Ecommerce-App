@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ecommerce_app/screens/Welcome%20Screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,13 +14,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => WelcomeScreen()),
-      );
+      Navigator.pushReplacementNamed(context, '/welcome');
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
