@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '184823449831',
     projectId: 'e-commerce-f4018',
     authDomain: 'e-commerce-f4018.firebaseapp.com',
-    storageBucket: 'e-commerce-f4018.firebasestorage.app',
+    storageBucket: 'e-commerce-f4018.appspot.com',
     measurementId: 'G-929MB5RSQJ',
   );
 
@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     appId: '1:184823449831:android:2153af44fa6389f188fa42',
     messagingSenderId: '184823449831',
     projectId: 'e-commerce-f4018',
-    storageBucket: 'e-commerce-f4018.firebasestorage.app',
+    storageBucket: 'e-commerce-f4018.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:184823449831:ios:c0693aaae81a438988fa42',
     messagingSenderId: '184823449831',
     projectId: 'e-commerce-f4018',
-    storageBucket: 'e-commerce-f4018.firebasestorage.app',
+    storageBucket: 'e-commerce-f4018.appspot.com',
     iosBundleId: 'com.example.ecommerceApp',
   );
 
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     appId: '1:184823449831:ios:c0693aaae81a438988fa42',
     messagingSenderId: '184823449831',
     projectId: 'e-commerce-f4018',
-    storageBucket: 'e-commerce-f4018.firebasestorage.app',
+    storageBucket: 'e-commerce-f4018.appspot.com',
     iosBundleId: 'com.example.ecommerceApp',
   );
 
@@ -82,8 +82,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '184823449831',
     projectId: 'e-commerce-f4018',
     authDomain: 'e-commerce-f4018.firebaseapp.com',
-    storageBucket: 'e-commerce-f4018.firebasestorage.app',
+    storageBucket: 'e-commerce-f4018.appspot.com',
     measurementId: 'G-F1E7W5L875',
   );
-
 }
