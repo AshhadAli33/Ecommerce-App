@@ -11,11 +11,17 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ✅ Safe initialization
-  if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  try {
+    // Try to initialize Firebase only if no app exists
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    } else {
+      Firebase.app(); // ✅ Use existing initialized app
+    }
+  } catch (e) {
+    print('Firebase initialization error: $e');
   }
 
   runApp(const MyApp());
