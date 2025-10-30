@@ -18,31 +18,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isLoading = false;
 
   Future<void> _signUp() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
 
-      try {
-        final credential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
-            );
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
 
-        await credential.user!.updateDisplayName(_nameController.text.trim());
-        await credential.user!.reload();
+      await credential.user!.updateDisplayName(_nameController.text.trim());
+      await credential.user!.sendEmailVerification();
 
-        Navigator.pushNamed(context, '/home');
-      } on FirebaseAuthException catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? 'Registration failed')),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
-      } finally {
-        setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Verification email sent! Please check your inbox.'),
+        ),
+      );
+
+      Navigator.pushReplacementNamed(context, '/login');
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'email-already-in-use':
+          message = 'Email already registered.';
+          break;
+        case 'invalid-email':
+          message = 'Invalid email format.';
+          break;
+        case 'weak-password':
+          message = 'Password too weak.';
+          break;
+        default:
+          message = 'Signup failed. Try again.';
       }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -80,8 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _nameController,
                   decoration: const InputDecoration(
                     filled: true,
-                    fillColor:
-                        AppColors.background,
+                    fillColor: AppColors.background,
                     prefixIcon: Icon(Icons.person_outline),
                     labelText: 'Full Name',
                     border: OutlineInputBorder(
@@ -96,17 +110,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     filled: true,
-                    fillColor:
-                        AppColors.background,
+                    fillColor: AppColors.background,
                     prefixIcon: Icon(Icons.email_outlined),
                     labelText: 'Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                   ),
-                  validator: (value) => value == null || !value.contains('@')
-                      ? 'Enter a valid email'
-                      : null,
+                  validator: (value) {
+                    final regex = RegExp(
+                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                    );
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    } else if (!regex.hasMatch(value)) {
+                      return 'Enter a valid email address';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -114,8 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor:
-                        AppColors.background,
+                    fillColor: AppColors.background,
                     prefixIcon: const Icon(Icons.lock_outline),
                     labelText: 'Password',
                     suffixIcon: IconButton(
@@ -134,8 +154,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                   ),
-                  validator: (value) =>
-                      value!.length < 6 ? 'Minimum 6 characters' : null,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    } else if (!RegExp(
+                      r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$',
+                    ).hasMatch(value)) {
+                      return 'Use letters and numbers in password';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 30),
                 Container(
